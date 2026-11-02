@@ -10,6 +10,7 @@ interface CachePerformanceProps {
   avgLatencyMs?: number;
   p95LatencyMs?: number;
   totalRequests?: number;
+  stats?: unknown;
   loading?: boolean;
   error?: string | null;
   onRetry?: () => void;

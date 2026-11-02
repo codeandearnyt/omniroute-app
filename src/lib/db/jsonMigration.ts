@@ -175,6 +175,13 @@ export function runJsonMigration(
       const normalizedCombo = {
         ...combo,
         sortOrder: typeof combo.sortOrder === "number" ? combo.sortOrder : index + 1,
+      } as unknown as {
+        id: string;
+        name: string;
+        sortOrder: number;
+        createdAt?: string;
+        updatedAt?: string;
+        [key: string]: unknown;
       };
       insertCombo.run({
         id: normalizedCombo.id,

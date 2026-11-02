@@ -39,16 +39,16 @@
   --color-traffic-green: #27c93f;
 
   /* Light theme */
-  --color-bg: #f5f7fb;           /* Cool Gray - dashboard background */
-  --color-bg-alt: #f1edff;       /* Soft Lavender - secondary backgrounds */
+  --color-bg: #f5f7fb; /* Cool Gray - dashboard background */
+  --color-bg-alt: #f1edff; /* Soft Lavender - secondary backgrounds */
   --color-bg-primary: #f5f7fb;
   --color-bg-subtle: #f1edff;
   --color-surface: #ffffff;
   --color-sidebar: rgba(245, 247, 251, 0.8);
   --color-border: rgba(25, 23, 46, 0.08);
-  --color-text-main: #19172e;    /* Midnight */
+  --color-text-main: #19172e; /* Midnight */
   --color-text-primary: #19172e;
-  --color-text-muted: #72758a;   /* Slate Gray */
+  --color-text-muted: #72758a; /* Slate Gray */
 
   /* Shadows */
   --shadow-soft: 0 1px 2px rgba(25, 23, 46, 0.04), 0 4px 12px rgba(25, 23, 46, 0.04);
@@ -358,5 +358,15 @@ button .material-symbols-outlined,
 
   .ant-table {
     min-width: 600px; /* Prevent columns from crushing together */
+  }
+}
+
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
   }
 }

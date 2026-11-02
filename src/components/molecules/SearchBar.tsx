@@ -36,7 +36,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       <Input
         placeholder={placeholder}
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(value) => setQuery(value)}
         disabled={disabled}
       />
       <Button

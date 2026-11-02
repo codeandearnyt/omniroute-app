@@ -119,7 +119,9 @@ export async function POST(request) {
       return NextResponse.json({ error: "Combo not found" }, { status: 404 });
     }
 
-    const models = (combo.models || []).map((m) => (typeof m === "string" ? m : m.model));
+    const models = ((combo.models as Array<unknown> | undefined) || []).map((m) =>
+      typeof m === "string" ? m : (m as { model?: string }).model
+    );
 
     if (models.length === 0) {
       return NextResponse.json({ error: "Combo has no models" }, { status: 400 });

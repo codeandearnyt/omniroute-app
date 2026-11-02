@@ -274,9 +274,7 @@ function buildClaudeCodeCompatibleMessages(messages: MessageLike[]) {
   const converted = messages
     .map((message) => convertClaudeCodeCompatibleMessage(message))
     .filter(
-      (
-        message
-      ): message is { role: "user" | "assistant"; content: Array<Record<string, unknown>> } =>
+      (message): message is NonNullable<typeof message> & { role: "user" | "assistant" } =>
         !!message && message.content.length > 0
     );
 
@@ -410,7 +408,7 @@ function buildClaudeCodeCompatibleSystemBlocks({
   ];
 
   for (const systemBlock of customSystemBlocks) {
-    const preparedBlock = { ...systemBlock };
+    const preparedBlock: Record<string, unknown> = { ...systemBlock };
     if (!preserveCacheControl) {
       delete preparedBlock.cache_control;
     }
@@ -572,7 +570,7 @@ function normalizeClaudeMessageInput(messages: unknown) {
         content: normalizeClaudeContentInput(record.content),
       };
     })
-    .filter((message): message is Record<string, unknown> => !!message);
+    .filter((message): message is NonNullable<typeof message> => !!message);
 }
 
 function normalizeClaudeToolInput(tools: unknown) {

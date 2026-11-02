@@ -508,7 +508,8 @@ async function testApiKeyConnection(connection: any) {
   const result = await validateProviderApiKey({
     provider: connection.provider,
     apiKey: connection.apiKey,
-    providerSpecificData: connection.providerSpecificData,
+    providerSpecificData:
+      (connection.providerSpecificData as Record<string, unknown> | undefined) ?? {},
   });
 
   if (result.unsupported) {

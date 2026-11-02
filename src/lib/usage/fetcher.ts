@@ -20,7 +20,7 @@ export async function getUsageForProvider(connection) {
     case "antigravity":
       return await getAntigravityUsage(accessToken);
     case "claude":
-      return await getClaudeUsage(accessToken);
+      return await getClaudeUsage();
     case "codex":
       return await getCodexUsage(accessToken, providerSpecificData);
     case "qwen":

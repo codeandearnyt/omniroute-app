@@ -1,5 +1,8 @@
+"use client";
+
+import { cn } from "@/shared/utils/cn";
 import { useRef } from "react";
-import { useResponsiveColumns } from "./use-resize";
+import { useResize, useResponsiveColumns } from "./use-resize";
 
 type ResponsiveGridProps = {
   children: React.ReactNode;
@@ -21,18 +24,15 @@ export const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({
   className,
 }) => {
   const breakpoint = useResize().breakpoint;
-  
-  const columns = useResponsiveColumns(
-    (bp: any) => {
-      if (bp === "sm" && sm !== undefined) return sm;
-      if (bp === "md" && md !== undefined) return md;
-      if (bp === "lg" && lg !== undefined) return lg;
-      if (bp === "xl" && xl !== undefined) return xl;
-      return baseColumns;
-    },
-    breakpoint
-  );
-  
+
+  const columns = useResponsiveColumns((bp: any) => {
+    if (bp === "sm" && sm !== undefined) return sm;
+    if (bp === "md" && md !== undefined) return md;
+    if (bp === "lg" && lg !== undefined) return lg;
+    if (bp === "xl" && xl !== undefined) return xl;
+    return baseColumns;
+  }, breakpoint);
+
   return (
     <div
       className={cn(

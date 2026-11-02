@@ -1,6 +1,8 @@
 "use client";
 
 import { StatusChip } from "@/components/molecules/StatusChip";
+import { Button } from "@/components/atoms/Button";
+import { Icon } from "@/components/atoms/Icon";
 import { cn } from "@/lib/utils";
 import { MenuIcon, SettingsIcon, LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -35,7 +37,17 @@ export const DashboardHeader: React.FC = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => router.signOut()}
+            onClick={async () => {
+              try {
+                const res = await fetch("/api/auth/logout", { method: "POST" });
+                if (res.ok) {
+                  router.push("/login");
+                  router.refresh();
+                }
+              } catch (err) {
+                console.error("Failed to logout:", err);
+              }
+            }}
             aria-label={t("logout")}
           >
             <LogOutIcon className="h-4 w-4" />

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
-type StatusVariant = "free" | "oauth" | "api-key" | "error" | "warning" | "default";
+type StatusVariant = "free" | "oauth" | "api-key" | "error" | "warning" | "default" | "outline";
 
 interface StatusChipProps {
   variant?: StatusVariant;
@@ -24,13 +24,14 @@ export const StatusChip: React.FC<StatusChipProps> = ({
     error: "bg-red-100 text-red-800",
     warning: "bg-amber-100 text-amber-800",
     default: "bg-gray-100 text-gray-700",
+    outline: "bg-transparent text-muted-foreground",
   };
 
   return (
     <motion.span
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ type: "tangent", duration: 0.3 }}
+      transition={{ type: "tween", duration: 0.3 }}
       className={cn(
         "inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium",
         "gap-1.5",

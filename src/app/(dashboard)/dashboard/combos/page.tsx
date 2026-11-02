@@ -309,7 +309,9 @@ function getStrategyDescription(t, strategy) {
   return getI18nOrFallback(
     t,
     key,
-    STRATEGY_DESC_FALLBACK[strategy] || STRATEGY_DESC_FALLBACK.priority || strategy
+    STRATEGY_DESC_FALLBACK[strategy] ||
+      (STRATEGY_DESC_FALLBACK as Record<string, string>).priority ||
+      strategy
   );
 }
 

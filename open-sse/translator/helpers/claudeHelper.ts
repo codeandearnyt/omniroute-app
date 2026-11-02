@@ -95,7 +95,7 @@ function ensureMessageContentArray(msg) {
   return [];
 }
 
-function markMessageCacheControl(msg, ttl) {
+function markMessageCacheControl(msg, ttl?: number | string) {
   const content = ensureMessageContentArray(msg);
   if (content.length === 0) return false;
   const lastIndex = content.length - 1;

@@ -3,9 +3,18 @@
  * Integrates with the OmniRoute routing engine
  */
 
-import { Route, Combo, fetchRoutes, fetchCombos, routeRequest, checkProviderHealth, getProviderMetrics, syncPricing } from "./api";
+import {
+  Route,
+  Combo,
+  fetchRoutes,
+  fetchCombos,
+  routeRequest,
+  checkProviderHealth,
+  getProviderMetrics,
+  syncPricing,
+} from "../api";
 import { useEffect, useState } from "react";
-import { betterSqlite3 } from "better-sqlite3";
+import Database from "better-sqlite3";
 
 // Database path configuration
 const DEFAULT_DATA_DIR = process.env.DATA_DIR || `${process.env.HOME}/.omniroute`;
@@ -13,26 +22,28 @@ const DEFAULT_DATA_DIR = process.env.DATA_DIR || `${process.env.HOME}/.omniroute
 // Initialize SQLite database
 function getDb() {
   const dbPath = DEFAULT_DATA_DIR;
-  return new betterSqlite3(dbPath);
+  return new Database(dbPath);
 }
 
 /**
  * Get all available providers with their status
  */
-export async function getProviders(): Promise<{
-  id: string;
-  name: string;
-  category: "free" | "oauth" | "api-key";
-  status: "active" | "idle" | "error";
-  monthlyCost: string;
-  quota: {
-    used: number;
-    limit: number;
-    remaining: number;
-  };
-}> {
+export async function getProviders(): Promise<
+  Array<{
+    id: string;
+    name: string;
+    category: "free" | "oauth" | "api-key";
+    status: "active" | "idle" | "error";
+    monthlyCost: string;
+    quota: {
+      used: number;
+      limit: number;
+      remaining: number;
+    };
+  }>
+> {
   const routes = await fetchRoutes();
-  
+
   return routes.map((route) => ({
     id: route.provider,
     name: route.provider,
@@ -53,11 +64,11 @@ export async function getProviders(): Promise<{
 function determineProviderCategory(providerId: string): "free" | "oauth" | "api-key" {
   const freeProviders = ["qoder", "qwen", "gemini-cli", "kiro"];
   const oauthProviders = ["claude-code", "codex", "github-copilot", "cursor"];
-  
-  if (freeProviders.some(p => providerId.includes(p))) {
+
+  if (freeProviders.some((p) => providerId.includes(p))) {
     return "free";
   }
-  if (oauthProviders.some(p => providerId.includes(p))) {
+  if (oauthProviders.some((p) => providerId.includes(p))) {
     return "oauth";
   }
   return "api-key";
@@ -74,14 +85,14 @@ export async function getOptimalRoute(
   context?: Record<string, unknown>
 ) {
   const routes = await fetchRoutes();
-  
+
   // Filter active routes
   const activeRoutes = routes.filter((r) => r.status === "active");
-  
+
   if (activeRoutes.length === 0) {
     throw new Error("No active routes available");
   }
-  
+
   // Sort based on priority
   const sortedRoutes = activeRoutes.sort((a, b) => {
     if (task.priority === "cost") {
@@ -93,7 +104,7 @@ export async function getOptimalRoute(
     }
     return 0; // quality default
   });
-  
+
   return sortedRoutes[0];
 }
 
@@ -104,15 +115,17 @@ export async function executeWithFallback({
   message,
   task,
   maxFallbacks = 2,
+  context,
 }: {
   message: string;
   task: {
     type: "text" | "code" | "analysis" | "creative";
   };
   maxFallbacks?: number;
+  context?: Record<string, unknown>;
 }) {
   const primaryRoute = await getOptimalRoute(task);
-  
+
   try {
     const result = await routeRequest({
       message,
@@ -121,7 +134,7 @@ export async function executeWithFallback({
         ...(context || {}),
       },
     });
-    
+
     return {
       success: true,
       route: primaryRoute,
@@ -130,10 +143,8 @@ export async function executeWithFallback({
   } catch (error) {
     // Attempt fallback routes
     const routes = await fetchRoutes();
-    const fallbackRoutes = routes.filter(
-      (r) => r.status === "active" && r.id !== primaryRoute.id
-    );
-    
+    const fallbackRoutes = routes.filter((r) => r.status === "active" && r.id !== primaryRoute.id);
+
     for (let i = 0; i < Math.min(maxFallbacks, fallbackRoutes.length); i++) {
       try {
         const result = await routeRequest({
@@ -144,7 +155,7 @@ export async function executeWithFallback({
             ...(context || {}),
           },
         });
-        
+
         return {
           success: true,
           route: fallbackRoutes[i],
@@ -155,7 +166,7 @@ export async function executeWithFallback({
         continue;
       }
     }
-    
+
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown routing error",
@@ -170,17 +181,17 @@ export async function executeWithFallback({
 export function useProviderMonitoring(providerId: string, interval = 30000) {
   const [health, setHealth] = useState<any>(null);
   const [metrics, setMetrics] = useState<any>(null);
-  
+
   useEffect(() => {
     let cancelled = false;
-    
+
     const fetchHealth = async () => {
       try {
         const [healthData, metricsData] = await Promise.all([
           checkProviderHealth(providerId),
           getProviderMetrics(providerId),
         ]);
-        
+
         if (!cancelled) {
           setHealth(healthData);
           setMetrics(metricsData);
@@ -191,20 +202,20 @@ export function useProviderMonitoring(providerId: string, interval = 30000) {
         }
       }
     };
-    
+
     // Initial fetch
     fetchHealth();
-    
+
     // Set up interval
     const intervalId = setInterval(fetchHealth, interval);
-    
+
     // Cleanup
     return () => {
       cancelled = true;
       clearInterval(intervalId);
     };
   }, [providerId, interval]);
-  
+
   return { health, metrics };
 }
 

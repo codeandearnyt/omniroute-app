@@ -454,7 +454,7 @@ function buildClaudeSummary(events: StructuredSSEEvent[], fallbackModel?: string
 
   const content = [...blocks.values()]
     .sort((a, b) => a.index - b.index)
-    .flatMap((block) => {
+    .flatMap((block): Array<Record<string, unknown>> => {
       if (block.type === "text") {
         return block.text
           ? [

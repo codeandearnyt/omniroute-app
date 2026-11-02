@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/atoms/Button";
 
 type MobileNavProps = {
   isOpen: boolean;
@@ -10,11 +11,7 @@ type MobileNavProps = {
   links: Array<{ label: string; href: string }>;
 };
 
-export const MobileNav: React.FC<MobileNavProps> = ({
-  isOpen,
-  onToggle,
-  links,
-}) => {
+export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onToggle, links }) => {
   const t = useTranslations("mobileNav");
 
   return (
@@ -43,12 +40,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
         </nav>
 
         <div className="mt-8 pt-8 border-t border-white/10">
-          <Button
-            variant="outline"
-            size="full"
-            onClick={onToggle}
-            className="w-full"
-          >
+          <Button variant="outline" size="xl" onClick={onToggle} className="w-full">
             {t("done")}
           </Button>
         </div>

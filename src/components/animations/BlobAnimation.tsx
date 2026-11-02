@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
+import { cn } from "@/shared/utils/cn";
 
 type BlobAnimationProps = {
   className?: string;
@@ -13,9 +14,7 @@ export const BlobAnimation: React.FC<BlobAnimationProps> = ({
   duration = 20000,
 }) => {
   useEffect(() => {
-    const element = document.querySelector(
-      `.blob-animation[data-delay="${delay}"]`
-    ) as HTMLElement;
+    const element = document.querySelector(`.blob-animation[data-delay="${delay}"]`) as HTMLElement;
     if (element) {
       element.style.animationDuration = `${duration}ms`;
     }
@@ -23,10 +22,7 @@ export const BlobAnimation: React.FC<BlobAnimationProps> = ({
 
   return (
     <motion.span
-      className={cn(
-        "blob-animation relative inline-block",
-        className
-      )}
+      className={cn("blob-animation relative inline-block", className)}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       animate="blob"

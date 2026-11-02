@@ -14,6 +14,7 @@ export interface RegistryModel {
   id: string;
   name: string;
   toolCalling?: boolean;
+  supportsReasoning?: boolean;
   targetFormat?: string;
   unsupportedParams?: readonly string[];
   /** Maximum context window in tokens */

@@ -2,14 +2,16 @@
 
 import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Logo } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Route } from "lucide-react";
+import { Button } from "@/components/atoms/Button";
 import { useIsMobile } from "@/components/responsive/use-resize";
 import { MobileNav } from "@/components/mobile/MobileNav";
 
 export const Navigation: React.FC = () => {
   const t = useTranslations("navigation");
   const router = useRouter();
-  const { breakpoint } = useIsMobile();
+  const isMobile = useIsMobile();
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
@@ -18,11 +20,11 @@ export const Navigation: React.FC = () => {
       <header className="border-b bg-card/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Logo className="w-8 h-8 text-primary" />
+            <Route className="w-8 h-8 text-primary" />
             <h1 className="text-xl font-bold">{t("omniroute")}</h1>
           </div>
 
-          {!breakpoint && (
+          {!isMobile && (
             <button
               onClick={() => setMobileOpen(true)}
               className="p-2 rounded-full bg-white hover:bg-gray-200"
@@ -45,13 +47,22 @@ export const Navigation: React.FC = () => {
           )}
 
           <div className="hidden sm:flex items-center gap-6">
-            <a href="#features" className="text-muted-foreground hover:text-primary transition-colors">
+            <a
+              href="#features"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               {t("features")}
             </a>
-            <a href="#routes" className="text-muted-foreground hover:text-primary transition-colors">
+            <a
+              href="#routes"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               {t("routes")}
             </a>
-            <a href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">
+            <a
+              href="#pricing"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
               {t("pricing")}
             </a>
           </div>
@@ -64,7 +75,7 @@ export const Navigation: React.FC = () => {
         </div>
       </header>
 
-      {breakpoint && mobileOpen && (
+      {isMobile && mobileOpen && (
         <MobileNav
           isOpen={mobileOpen}
           onToggle={() => setMobileOpen(false)}

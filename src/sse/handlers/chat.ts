@@ -240,7 +240,11 @@ export async function handleChat(request: any, clientRawRequest: any = null) {
 
   // Check if model is a combo (has multiple models with fallback)
   telemetry.startPhase("resolve");
-  const combo = await getComboForModel(resolvedModelStr);
+  const combo = (await getComboForModel(resolvedModelStr)) as unknown as {
+    name: string;
+    strategy?: string;
+    models: Array<string | { model: string }>;
+  } | null;
   if (combo) {
     log.info(
       "CHAT",

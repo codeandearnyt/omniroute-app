@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
 type ButtonVariants = "primary" | "secondary" | "ghost" | "outline" | "danger";
-type ButtonSize = "sm" | "md" | "lg" | "xl";
+type ButtonSize = "sm" | "md" | "lg" | "xl" | "icon";
 
 interface ButtonProps {
   variant?: ButtonVariants;
@@ -31,19 +31,15 @@ export const Button: React.FC<ButtonProps> = ({
     md: "h-10 px-4 text-base",
     lg: "h-12 px-6 text-lg",
     xl: "h-14 px-8 text-xl",
+    icon: "h-10 w-10 p-0 flex items-center justify-center",
   };
 
   const variantStyles = {
-    primary:
-      "bg-[#E54D5E] hover:bg-[#C93D4E] text-white shadow-[0_0_20px_rgba(229,77,94,0.5)]",
-    secondary:
-      "bg-[#2D333B] hover:bg-[#1A1D24] text-white",
-    ghost:
-      "hover:bg-[#F1F5F9] hover:text-[#0F172A]",
-    outline:
-      "border border-[#2D333B] hover:bg-[#F1F5F9] text-[#2D333B]",
-    danger:
-      "bg-red-500 hover:bg-red-600 text-white",
+    primary: "bg-[#E54D5E] hover:bg-[#C93D4E] text-white shadow-[0_0_20px_rgba(229,77,94,0.5)]",
+    secondary: "bg-[#2D333B] hover:bg-[#1A1D24] text-white",
+    ghost: "hover:bg-[#F1F5F9] hover:text-[#0F172A]",
+    outline: "border border-[#2D333B] hover:bg-[#F1F5F9] text-[#2D333B]",
+    danger: "bg-red-500 hover:bg-red-600 text-white",
   };
 
   const baseClasses = cn(
@@ -64,10 +60,7 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {loading ? (
         <span className="flex items-center justify-center">
-          <svg
-            className="animate-spin h-4 w-4 mr-2 text-white"
-            viewBox="0 0 24 24"
-          >
+          <svg className="animate-spin h-4 w-4 mr-2 text-white" viewBox="0 0 24 24">
             <circle
               className="opacity-25"
               cx="12"
@@ -76,11 +69,7 @@ export const Button: React.FC<ButtonProps> = ({
               stroke="currentColor"
               strokeWidth="4"
             />
-            <path
-              className="opacity-75"
-              fill="none"
-              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-            />
+            <path className="opacity-75" fill="none" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
           </svg>
           Processing...
         </span>

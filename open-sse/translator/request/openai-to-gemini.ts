@@ -34,6 +34,7 @@ type GeminiGenerationConfig = {
   topP?: unknown;
   topK?: unknown;
   maxOutputTokens?: unknown;
+  stopSequences?: unknown;
   thinkingConfig?: {
     thinkingBudget: number;
     includeThoughts: boolean;
@@ -77,8 +78,8 @@ type CloudCodeEnvelope = {
   };
 };
 
-function normalizeAntigravityToolName(name: unknown) {
-  if (typeof name !== "string") return name;
+function normalizeAntigravityToolName(name: unknown): string {
+  if (typeof name !== "string") return String(name ?? "");
   const trimmed = name.trim();
   if (!trimmed) return trimmed;
 
@@ -362,7 +363,7 @@ export function openaiToGeminiCLIRequest(model, body, stream) {
   // Clean schema for tools
   if (gemini.tools?.[0]?.functionDeclarations) {
     for (const fn of gemini.tools[0].functionDeclarations) {
-      fn.name = normalizeAntigravityToolName(fn.name);
+      fn.name = normalizeAntigravityToolName(String(fn.name ?? ""));
       if (fn.parameters) {
         const cleanedSchema = cleanJSONSchemaForAntigravity(fn.parameters);
         fn.parameters = cleanedSchema;
@@ -379,7 +380,11 @@ export function openaiToGeminiCLIRequest(model, body, stream) {
   if (Array.isArray(gemini.contents)) {
     for (const content of gemini.contents) {
       if (!Array.isArray(content.parts)) continue;
-      for (const part of content.parts) {
+      for (const rawPart of content.parts) {
+        const part = rawPart as {
+          functionCall?: { name?: string };
+          functionResponse?: { name?: string };
+        };
         if (part.functionCall?.name) {
           part.functionCall.name = normalizeAntigravityToolName(part.functionCall.name);
         }

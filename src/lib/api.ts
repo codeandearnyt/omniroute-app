@@ -3,12 +3,10 @@
  * Handles routing, provider requests, and combo management
  */
 
-import { betterSqlite3 } from "better-sqlite3";
 import { z } from "zod";
 
 // API base URL - configurable via environment
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:20128";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:20128";
 
 // Zod schemas for API validation
 export const RouteSchema = z.object({
@@ -93,12 +91,9 @@ export async function routeRequest({
  * Check provider health and quotas
  */
 export async function checkProviderHealth(providerId: string) {
-  const response = await fetch(
-    `${API_BASE}/api/provider/${providerId}/health`,
-    {
-      cache: "no-store",
-    }
-  );
+  const response = await fetch(`${API_BASE}/api/provider/${providerId}/health`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
     throw new Error("Failed to check provider health");
@@ -111,12 +106,9 @@ export async function checkProviderHealth(providerId: string) {
  * Get provider metrics and performance data
  */
 export async function getProviderMetrics(providerId: string) {
-  const response = await fetch(
-    `${API_BASE}/api/provider/${providerId}/metrics`,
-    {
-      cache: "no-store",
-    }
-  );
+  const response = await fetch(`${API_BASE}/api/provider/${providerId}/metrics`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
     throw new Error("Failed to get provider metrics");

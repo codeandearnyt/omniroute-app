@@ -1,3 +1,4 @@
+import { cn } from "@/shared/utils/cn";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 
@@ -22,7 +23,7 @@ export const PulseAnimation: React.FC<PulseAnimationProps> = ({
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       document.head.removeChild(style);
     };
@@ -30,10 +31,7 @@ export const PulseAnimation: React.FC<PulseAnimationProps> = ({
 
   return (
     <motion.span
-      className={cn(
-        "relative inline-block",
-        className
-      )}
+      className={cn("relative inline-block", className)}
       animate={{
         opacity: [0.5, 1],
         scale: [0.95, 1],
@@ -41,7 +39,7 @@ export const PulseAnimation: React.FC<PulseAnimationProps> = ({
       transition={{
         duration: 2,
         repeat: Infinity,
-        ease: "ease-in-out",
+        ease: "easeInOut",
         delay,
       }}
     />

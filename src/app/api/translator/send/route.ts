@@ -75,7 +75,8 @@ export async function POST(request) {
       refreshToken: connection.refreshToken,
       copilotToken: connection.copilotToken,
       projectId: connection.projectId,
-      providerSpecificData: connection.providerSpecificData,
+      providerSpecificData:
+        (connection.providerSpecificData as Record<string, unknown> | undefined) ?? {},
     };
     targetFormat = getTargetFormat(provider, connection.providerSpecificData);
 
@@ -83,7 +84,8 @@ export async function POST(request) {
     const url = buildProviderUrl(provider, body.model || "test-model", true, {
       baseUrlIndex: 0,
       baseUrl: getProviderBaseUrl(connection.providerSpecificData),
-      providerSpecificData: connection.providerSpecificData,
+      providerSpecificData:
+        (connection.providerSpecificData as Record<string, unknown> | undefined) ?? {},
     });
     const headers = buildProviderHeaders(provider, credentials, true, body);
 

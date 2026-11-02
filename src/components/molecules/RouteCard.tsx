@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { StatusChip } from "@/components/molecules/StatusChip";
+import { Icon } from "@/components/atoms/Icon";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
@@ -50,7 +51,7 @@ export const RouteCard: React.FC<RouteCardProps> = ({
           <p className="text-xs text-muted-foreground line-clamp-1">{provider}</p>
         </div>
       </div>
-      
+
       {cost && (
         <span className="mt-2 inline-flex items-center rounded-full bg-background px-2 py-1 text-xs font-medium">
           {cost}

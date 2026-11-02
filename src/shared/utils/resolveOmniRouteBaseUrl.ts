@@ -12,11 +12,14 @@ function normalizeBaseUrl(value?: string): string | null {
   return trimmed.replace(/\/+$/, "");
 }
 
-export function resolveOmniRouteBaseUrl(env: OmniRouteBaseUrlEnv = process.env): string {
+export function resolveOmniRouteBaseUrl(
+  env: OmniRouteBaseUrlEnv | Record<string, string | undefined> = process.env
+): string {
+  const source = env as OmniRouteBaseUrlEnv;
   return (
-    normalizeBaseUrl(env.OMNIROUTE_BASE_URL) ||
-    normalizeBaseUrl(env.BASE_URL) ||
-    normalizeBaseUrl(env.NEXT_PUBLIC_BASE_URL) ||
+    normalizeBaseUrl(source.OMNIROUTE_BASE_URL) ||
+    normalizeBaseUrl(source.BASE_URL) ||
+    normalizeBaseUrl(source.NEXT_PUBLIC_BASE_URL) ||
     DEFAULT_OMNIROUTE_BASE_URL
   );
 }

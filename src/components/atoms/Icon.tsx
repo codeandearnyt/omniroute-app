@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/shared/utils/cn";
 import { ReactNode } from "react";
 
 type IconSize = "sm" | "md" | "lg" | "xl";
@@ -10,11 +11,7 @@ interface IconProps {
   children: ReactNode;
 }
 
-export const Icon: React.FC<IconProps> = ({
-  size = "md",
-  className,
-  children,
-}) => {
+export const Icon: React.FC<IconProps> = ({ size = "md", className, children }) => {
   const sizeMap = {
     sm: "h-4 w-4",
     md: "h-5 w-5",
@@ -22,9 +19,5 @@ export const Icon: React.FC<IconProps> = ({
     xl: "h-8 w-8",
   };
 
-  return (
-    <span className={cn(sizeMap[size], className)}>
-      {children}
-    </span>
-  );
+  return <span className={cn(sizeMap[size], className)}>{children}</span>;
 };

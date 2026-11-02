@@ -1,13 +1,16 @@
+import { cn } from "@/shared/utils/cn";
 import { useEffect, useRef, useState } from "react";
 
 type ParallaxMouseProps = {
   factor?: number;
   className?: string;
+  children?: React.ReactNode;
 };
 
 export const ParallaxMouse: React.FC<ParallaxMouseProps> = ({
   factor = 20,
   className,
+  children,
 }) => {
   const xRef = useRef(0);
   const yRef = useRef(0);
@@ -19,16 +22,16 @@ export const ParallaxMouse: React.FC<ParallaxMouseProps> = ({
       const documentRect = document.documentElement.getBoundingClientRect();
       const mouseX = clientX - documentRect.left;
       const mouseY = clientY - documentRect.top;
-      
+
       const centerX = documentRect.width / 2;
       const centerY = documentRect.height / 2;
-      
-      const deltaX = (mouseX - centerX) / centerX * factor;
-      const deltaY = (mouseY - centerY) / centerY * factor;
-      
+
+      const deltaX = ((mouseX - centerX) / centerX) * factor;
+      const deltaY = ((mouseY - centerY) / centerY) * factor;
+
       xRef.current = deltaX;
       yRef.current = deltaY;
-      
+
       setPosition({
         x: deltaX,
         y: deltaY,

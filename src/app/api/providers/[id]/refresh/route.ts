@@ -41,7 +41,8 @@ export async function POST(_request: Request, { params }: { params: Promise<{ id
       expiresAt: connection.expiresAt,
       expiresIn: connection.expiresIn,
       idToken: connection.idToken,
-      providerSpecificData: connection.providerSpecificData,
+      providerSpecificData:
+        (connection.providerSpecificData as Record<string, unknown> | undefined) ?? {},
     };
 
     // Use the existing getAccessToken helper which knows how to refresh

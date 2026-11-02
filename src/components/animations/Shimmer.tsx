@@ -1,3 +1,4 @@
+import { cn } from "@/shared/utils/cn";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 
@@ -6,18 +7,9 @@ type ShimmerProps = {
   speed?: number;
 };
 
-export const Shimmer: React.FC<ShimmerProps> = ({
-  className,
-  speed = 2000,
-}) => {
+export const Shimmer: React.FC<ShimmerProps> = ({ className, speed = 2000 }) => {
   return (
-    <motion.div
-      className={cn(
-        "relative overflow-hidden",
-        className
-      )}
-      whileHover={{ scale: 1.02 }}
-    >
+    <motion.div className={cn("relative overflow-hidden", className)} whileHover={{ scale: 1.02 }}>
       <motion.span
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
         style={{

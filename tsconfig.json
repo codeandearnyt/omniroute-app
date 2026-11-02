@@ -46,6 +46,13 @@
     "app.__qa_backup",
     "vscode-extension",
     "omnirouteCloud",
-    "omnirouteSite"
+    "omnirouteSite",
+    "scripts/scratch",
+    "tests",
+    "**/__tests__",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ]
 }

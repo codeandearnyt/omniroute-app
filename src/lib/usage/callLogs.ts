@@ -160,7 +160,10 @@ async function resolveAccountName(connectionId: string | null | undefined) {
     const connections = await getProviderConnections();
     const conn = connections.find((item) => item.id === connectionId);
     if (conn) {
-      account = pickMaskedDisplayValue([conn.name, conn.email], account);
+      account = pickMaskedDisplayValue(
+        [conn.name, conn.email].filter((v): v is string => typeof v === "string"),
+        account
+      );
     }
   } catch {
     // Best-effort lookup only.

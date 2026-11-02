@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 
 type BarChartItem = {
   label: string;
@@ -13,23 +12,11 @@ type BarChartProps = {
   animateOnMount?: boolean;
 };
 
-export const BarChart: React.FC<BarChartProps> = ({
-  items,
-  height = 200,
-  animateOnMount = true,
-}) => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    if (animateOnMount) {
-      setMounted(true);
-    }
-  }, []);
-
-  const barHeights = items.map((item, index) => {
+export const BarChart: React.FC<BarChartProps> = ({ items, height = 200 }) => {
+  const barHeights = items.map((item) => {
     const maxValue = Math.max(...items.map((i) => i.value));
-    const percentage = item.value / maxValue;
-    return Math.round((percentage * (height - 40)) + 20);
+    const percentage = maxValue > 0 ? item.value / maxValue : 0;
+    return Math.round(percentage * (height - 40) + 20);
   });
 
   return (
@@ -56,7 +43,7 @@ export const BarChart: React.FC<BarChartProps> = ({
             >
               {item.value}
             </motion.span>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

@@ -16,19 +16,22 @@ export const Counter: React.FC<CounterProps> = ({
   separator = true,
 }) => {
   const [current, setCurrent] = useState(0);
-  const startTime = useRef(Date.now());
+  const startTime = useRef<number>(0);
   const isMounted = useRef(true);
 
   useEffect(() => {
+    startTime.current = Date.now();
+    isMounted.current = true;
+
     const animate = () => {
       if (!isMounted.current) return;
 
-      const elapsed = Date.now() - startTime.current.current;
+      const elapsed = Date.now() - startTime.current;
       const progress = Math.min(elapsed / duration, 1);
-      
+
       // Easing function
       const eased = 1 - Math.pow(1 - progress, 3);
-      
+
       const currentValue = Math.round(target * eased);
       setCurrent(currentValue);
 
@@ -50,7 +53,9 @@ export const Counter: React.FC<CounterProps> = ({
 
   return (
     <span>
-      {prefix}{formatNumber(current)}{suffix}
+      {prefix}
+      {formatNumber(current)}
+      {suffix}
     </span>
   );
 };
